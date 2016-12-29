@@ -1,4 +1,5 @@
 #include <iostream>
+#include <algorithm>
 
 using namespace std;
 
@@ -21,6 +22,37 @@ public:
 	}
 	~Tree()
 	{
+		clear(head);
+	}
+	Tree* deepCopy()const
+	{
+		Tree *t;
+		if (this->head != NULL)
+			copyHelp(this->head, t->head);
+		return t;
+	}
+	void copyHelp(Node *original, Node *node) const
+	{
+		if (original != NULL)
+		{
+			Node *newNode = new Node();
+			newNode->item = original->item;
+			newNode->left = original->left;
+			newNode->right = original->right;
+			cout << "Copying nodes, value original: " << original->item << ". New node value: " << newNode->item << endl;
+			copyHelp(original->left, newNode->left);
+			copyHelp(original->right, newNode->right);
+			
+		}
+	}
+	void clear(Node *node)
+	{
+		if(node != NULL)
+		{
+			clear(node->left);
+			clear(node->right);
+			delete node;
+		}
 	}
 	void print()
 	{
@@ -39,6 +71,16 @@ public:
 		}
 		
 	}
+ 	int maxHight()
+ 	{
+ 		return maxHightHelper(head);
+ 	}
+    int maxHightHelper(Node *node)
+    {
+    	if(node == NULL)
+    		return 0;
+    	return (1+max(maxHightHelper(node->left),maxHightHelper(node->right)));
+    }
 	void add(int value)
 	{
 		Node *it = head;
@@ -90,6 +132,12 @@ int main()
 	t.add(2);
 	t.add(1);
 	t.add(9);
+	Tree *tt;
+	tt = t.deepCopy();
+	cout <<"Printing copy" << endl;
+	tt->print();
+	cout<<"Max hight is "<<t.maxHight() << endl;
+	cout << "Printing original" << endl;
 	t.print();
 	return 0;
 }
