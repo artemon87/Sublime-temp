@@ -24,26 +24,52 @@ public:
 	{
 		clear(head);
 	}
-	Tree* deepCopy()const
+	void deepCopy(Tree *&t)const
 	{
-		Tree *t;
+		//Tree *t;
 		if (this->head != NULL)
-			copyHelp(this->head, t->head);
-		return t;
-	}
-	void copyHelp(Node *original, Node *node) const
-	{
-		if (original != NULL)
 		{
-			Node *newNode = new Node();
+			//t->head = new Node();
+			//t->head->item = this->head->item;
+			copyHelp(this->head, t->head);
+		}
+		//return t;
+	}
+	void copyHelp(Node *original, Node *&newNode) const
+	{
+		/*if (original->left != NULL)
+		{
+			copyHelp(original->left, newNode->left);
+			newNode = new Node();
+			newNode->item = original->item;
+			newNode->left = original->left;
+			newNode->right = original->right;
+			cout << "Copying nodes, value original: " << original->item << ". New node value: " << newNode->item << endl;
+			//copyHelp(original->left, newNode->left);
+			//copyHelp(original->right, newNode->right);
+		}
+		else if (original->right != NULL)
+		{
+			copyHelp(original->right, newNode->right);
+			newNode = new Node();
+			newNode->item = original->item;
+			newNode->left = original->left;
+			newNode->right = original->right;
+			cout << "Copying nodes, value original: " << original->item << ". New node value: " << newNode->item << endl;
+
+		}*/
+		if(original != NULL)
+		{
+
+			newNode = new Node();
 			newNode->item = original->item;
 			newNode->left = original->left;
 			newNode->right = original->right;
 			cout << "Copying nodes, value original: " << original->item << ". New node value: " << newNode->item << endl;
 			copyHelp(original->left, newNode->left);
 			copyHelp(original->right, newNode->right);
-			
 		}
+
 	}
 	void clear(Node *node)
 	{
@@ -132,9 +158,13 @@ int main()
 	t.add(2);
 	t.add(1);
 	t.add(9);
-	Tree *tt;
-	tt = t.deepCopy();
+	Tree *tt = new Tree();
+	t.deepCopy(tt);
 	cout <<"Printing copy" << endl;
+	tt->print();
+	cout << "adding new items" << endl;
+	tt->add(3);
+	tt->add(7);
 	tt->print();
 	cout<<"Max hight is "<<t.maxHight() << endl;
 	cout << "Printing original" << endl;
